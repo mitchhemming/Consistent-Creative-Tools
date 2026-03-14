@@ -69,7 +69,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .profit-bar{height:100%;border-radius:2px;background:var(--green);transition:width 0.5s cubic-bezier(0.4,0,0.2,1)}
 
 /* ── TABLES ── */
-.card{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:10px}
+.card{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius);margin-bottom:10px}
 table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}
 th{font-size:12px;font-weight:500;color:var(--text);text-align:left;padding:10px 12px;border-bottom:0.5px solid var(--border);background:var(--bg3);white-space:nowrap;user-select:none;font-family:'DM Sans',sans-serif;position:relative}
 td{padding:8px 12px;border-bottom:0.5px solid var(--border);color:var(--text);vertical-align:middle}
@@ -196,6 +196,26 @@ select:focus{outline:none;border-color:var(--green)}
 .health-item-body{font-size:12px;color:var(--text2);line-height:1.65;padding-left:15px}
 .health-item-action{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;padding-left:15px;margin-top:2px}
 
+/* ── Custom category dropdown ── */
+.cat-select-wrap{position:relative;display:inline-block;width:100%}
+.cat-select-display{font-family:'DM Sans',sans-serif;font-size:13px;padding:5px 28px 5px 8px;border:0.5px solid var(--border);border-radius:var(--radius-sm);background:transparent;color:var(--text);width:100%;cursor:pointer;transition:border-color 0.15s;text-align:left;appearance:none;-webkit-appearance:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cat-select-display:focus,.cat-select-display.open{outline:none;border-color:var(--green);background:var(--bg4)}
+.cat-select-arrow{position:absolute;right:8px;top:50%;transform:translateY(-50%);pointer-events:none;font-size:10px;color:var(--text3)}
+.cat-dropdown{display:none;position:fixed;background:var(--bg3);border:0.5px solid var(--border2);border-radius:var(--radius-sm);z-index:9999;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,0.4);min-width:160px}
+.cat-dropdown.open{display:block}
+.cat-option{padding:7px 10px;font-size:13px;color:var(--text2);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background 0.1s}
+.cat-option:hover{background:var(--bg4)}
+.cat-option.selected{color:var(--green)}
+.cat-option-x{font-size:14px;color:var(--text3);padding:0 2px;line-height:1;transition:color 0.15s;cursor:pointer}
+.cat-option-x:hover{color:var(--red)}
+.cat-empty{padding:7px 10px;font-size:12px;color:var(--text3);font-style:italic}
+.cat-add-row{display:flex;gap:0;border-top:0.5px solid var(--border);margin-top:2px}
+.cat-inline-input{flex:1;background:transparent;border:none;outline:none;padding:7px 10px;font-size:13px;color:var(--text);font-family:'DM Sans',sans-serif}
+.cat-inline-input::placeholder{color:var(--text3)}
+.cat-inline-btn{background:var(--green);border:none;padding:6px 12px;font-size:12px;font-weight:600;color:#0e0e0e;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity 0.15s;white-space:nowrap}
+.cat-inline-btn:hover{opacity:0.85}
+.cat-inline-btn:disabled{opacity:0.3;cursor:not-allowed}
+
 /* FOOTER */
 .footer{margin-top:2.5rem;padding:1.25rem 0;border-top:0.5px solid var(--border);text-align:center}
 .footer p{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;line-height:1.9}
@@ -246,8 +266,8 @@ select:focus{outline:none;border-color:var(--green)}
   <div class="metric-grid">
     <div class="metric"><div class="metric-label">Total revenue (inc GST)</div><div class="metric-value" id="ov-revenue">$0</div><div class="metric-sub">Monthly</div></div>
     <div class="metric"><div class="metric-label">GST payable</div><div class="metric-value" id="ov-gst">$0</div><div class="metric-sub">Monthly</div></div>
-    <div class="metric"><div class="metric-label">Automotive revenue</div><div class="metric-value" id="ov-auto">$0</div><div class="metric-sub">Monthly</div></div>
-    <div class="metric"><div class="metric-label">Real estate revenue</div><div class="metric-value" id="ov-re">$0</div><div class="metric-sub">Monthly</div></div>
+    <div class="metric"><div class="metric-label" id="ov-cat1-label">Category 1</div><div class="metric-value" id="ov-cat1">$0</div><div class="metric-sub">Monthly</div></div>
+    <div class="metric"><div class="metric-label" id="ov-cat2-label">Category 2</div><div class="metric-value" id="ov-cat2">$0</div><div class="metric-sub">Monthly</div></div>
   </div>
   <div class="section-label">Expenses</div>
   <div class="metric-grid">
@@ -273,6 +293,7 @@ select:focus{outline:none;border-color:var(--green)}
 
 <!-- ══ CLIENTS ══ -->
 <div id="clients" class="panel">
+  <div class="section-label" style="margin-top:0">Client list</div>
   <div class="card">
     <table>
       <thead><tr>
@@ -455,8 +476,9 @@ const defaultState={
   sortWages:{field:'name',dir:'asc'},
   sortOpex:{field:'desc',dir:'asc'},
   sortDebts:{field:'desc',dir:'asc'},
+  categories:[],
   clients:[
-    {name:'Client Name',amount:0,type:'Automotive'},
+    {name:'Client Name',amount:0,type:''},
   ],
   wages:[
     {name:'Staff Member',amount:0,type:'Role'},
@@ -506,6 +528,7 @@ function loadFromStorage(){
       const p=JSON.parse(saved);
       state={...JSON.parse(JSON.stringify(defaultState)),...p};
       state.goals={...defaultState.goals,...(p.goals||{})};
+      state.categories=p.categories||[];
     }
     updateSaveStatus();
   }catch(e){}
@@ -532,9 +555,13 @@ function commit(fn){fn();snapshot();saveToStorage();update();}
 
 // ── calculations ──
 function getCalc(){
-  const autoRev=state.clients.filter(c=>c.type==='Automotive').reduce((s,c)=>s+c.amount,0);
-  const reRev=state.clients.filter(c=>c.type==='Real Estate').reduce((s,c)=>s+c.amount,0);
-  const revenue=autoRev+reRev;
+  // Dynamic category revenue — show top 2 by revenue
+  const catRevMap={};
+  state.clients.forEach(cl=>{if(cl.type)catRevMap[cl.type]=(catRevMap[cl.type]||0)+cl.amount;});
+  const catsSorted=Object.entries(catRevMap).sort((a,b)=>b[1]-a[1]);
+  const cat1=catsSorted[0]||['—',0],cat2=catsSorted[1]||['—',0];
+  const autoRev=cat1[1],reRev=cat2[1];
+  const revenue=state.clients.reduce((s,cl)=>s+cl.amount,0);
   const gst=revenue/11;
   const revExGST=revenue-gst;
   const wages=state.wages.reduce((s,w)=>s+w.amount,0);
@@ -758,10 +785,24 @@ function renderClients(){
     return`<tr${pin?' style="outline:0.5px solid rgba(61,214,140,0.3);outline-offset:-1px"':''}>
       <td><input type="text" value="${c.name.replace(/"/g,'&quot;')}" onchange="onClientNameChange(${i},this.value)"></td>
       <td>${moneyField(c.amount,`commit(()=>{state.clients[${i}].amount=parseFloat(this.value)||0})`)}</td>
-      <td><select onchange="commit(()=>{state.clients[${i}].type=this.value})">
-        <option ${c.type==='Automotive'?'selected':''}>Automotive</option>
-        <option ${c.type==='Real Estate'?'selected':''}>Real Estate</option>
-      </select></td>
+      <td><div class="cat-select-wrap" id="csw-${i}">
+        <button type="button" class="cat-select-display ${c.type?'':'placeholder'}" onclick="toggleCatDropdown(${i},event)">${c.type||'— Select —'}</button>
+        <span class="cat-select-arrow">▾</span>
+        <div class="cat-dropdown" id="cdd-${i}">
+          ${state.categories.length?state.categories.map(cat=>`
+            <div class="cat-option ${c.type===cat?'selected':''}" onclick="selectCat(${i},'${cat.replace(/'/g,"\'")}')">
+              <span>${cat}</span>
+              <span class="cat-option-x" onclick="deleteCatFromDropdown('${cat.replace(/'/g,"\'")}',event)">×</span>
+            </div>`).join(''):'<div class="cat-empty">No categories yet</div>'}
+          <div class="cat-add-row">
+            <input class="cat-inline-input" id="cii-${i}" type="text" placeholder="New category…" maxlength="40"
+              oninput="document.getElementById('cib-${i}').disabled=!this.value.trim()"
+              onkeydown="if(event.key==='Enter'&&this.value.trim())addCatInline(${i})"
+              onclick="event.stopPropagation()">
+            <button class="cat-inline-btn" id="cib-${i}" disabled onclick="addCatInline(${i})">Add</button>
+          </div>
+        </div>
+      </div></td>
       <td><button class="btn-danger" onclick="commit(()=>{if(state.newClientId===${i})state.newClientId=null;state.clients.splice(${i},1);if(state.newClientId!==null&&state.newClientId>${i})state.newClientId--})">✕</button></td>
     </tr>`;
   }).join('');
@@ -816,8 +857,11 @@ function renderDebt(){
 function updateOverview(calc){
   document.getElementById('ov-revenue').textContent=fmt(calc.revenue);
   document.getElementById('ov-gst').textContent=fmt(calc.gst);
-  document.getElementById('ov-auto').textContent=fmt(calc.autoRev);
-  document.getElementById('ov-re').textContent=fmt(calc.reRev);
+  const cat1El=document.getElementById('ov-cat1-label'),cat2El=document.getElementById('ov-cat2-label');
+  if(cat1El)cat1El.textContent=catsSorted[0]?catsSorted[0][0]+' revenue':'No categories';
+  if(cat2El)cat2El.textContent=catsSorted[1]?catsSorted[1][0]+' revenue':'—';
+  document.getElementById('ov-cat1').textContent=fmt(calc.autoRev);
+  document.getElementById('ov-cat2').textContent=fmt(calc.reRev);
   document.getElementById('ov-wages').textContent=fmt(calc.wages);
   document.getElementById('ov-opex').textContent=fmt(calc.opex);
   document.getElementById('ov-ato').textContent=fmt(calc.debtMonthly);
@@ -1120,8 +1164,8 @@ function buildClientsInsights(calc){
   }
 
   // Split by type
-  const autoCount=state.clients.filter(c=>c.type==='Automotive').length;
-  const reCount=state.clients.filter(c=>c.type==='Real Estate').length;
+  const autoCount=catsSorted[0]?state.clients.filter(cl=>cl.type===catsSorted[0][0]).length:0;
+  const reCount=catsSorted[1]?state.clients.filter(cl=>cl.type===catsSorted[1][0]).length:0;
   const autoRev=calc.autoRev,reRev=calc.reRev,total=calc.revenue;
   if(autoCount>0&&reCount>0){
     const autoPct=total>0?Math.round((autoRev/total)*100):0;
@@ -1276,8 +1320,62 @@ function update(){
 
 }
 
+function renderCategories(){}// categories now live inside each row dropdown
+
+function toggleCatDropdown(i,e){
+  e.stopPropagation();
+  // Close all others
+  document.querySelectorAll('.cat-dropdown.open').forEach(d=>{
+    if(d.id!=='cdd-'+i)d.classList.remove('open');
+  });
+  document.querySelectorAll('.cat-select-display.open').forEach(b=>{
+    if(b.closest('#csw-'+i)===null)b.classList.remove('open');
+  });
+  const dd=document.getElementById('cdd-'+i);
+  const btn=document.querySelector('#csw-'+i+' .cat-select-display');
+  if(!dd)return;
+  const isOpen=dd.classList.contains('open');
+  if(!isOpen){
+    // Position fixed dropdown below the button
+    const r=btn.getBoundingClientRect();
+    dd.style.top=(r.bottom+4)+'px';
+    dd.style.left=r.left+'px';
+    dd.style.width=r.width+'px';
+  }
+  dd.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+
+function selectCat(i,cat){
+  commit(()=>state.clients[i].type=cat);
+  document.querySelectorAll('.cat-dropdown').forEach(d=>d.classList.remove('open'));
+  document.querySelectorAll('.cat-select-display').forEach(b=>b.classList.remove('open'));
+}
+
+function addCatInline(i){
+  const inp=document.getElementById('cii-'+i);
+  const val=inp.value.trim();
+  if(!val)return;
+  commit(()=>{
+    if(!state.categories.includes(val))state.categories.push(val);
+    state.clients[i].type=val;
+  });
+  document.querySelectorAll('.cat-dropdown').forEach(d=>d.classList.remove('open'));
+  document.querySelectorAll('.cat-select-display').forEach(b=>b.classList.remove('open'));
+}
+
+function deleteCatFromDropdown(cat,e){
+  e.stopPropagation();
+  commit(()=>{
+    state.categories=state.categories.filter(c=>c!==cat);
+    state.clients.forEach(cl=>{if(cl.type===cat)cl.type='';});
+  });
+}
+
+function addCategory(){} // legacy stub
+
 function addClient(){
-  state.clients.push({name:'New client',amount:0,type:'Automotive'});
+  state.clients.push({name:'New client',amount:0,type:''});
   state.newClientId=state.clients.length-1;
   snapshot();saveToStorage();
   renderClients();
@@ -1297,6 +1395,10 @@ function switchTab(name,el){
   el.classList.add('active');
 }
 
+document.addEventListener('click',()=>{
+  document.querySelectorAll('.cat-dropdown.open').forEach(d=>d.classList.remove('open'));
+  document.querySelectorAll('.cat-select-display.open').forEach(b=>b.classList.remove('open'));
+});
 loadFromStorage();
 update();
 </script>
