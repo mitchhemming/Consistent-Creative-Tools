@@ -575,7 +575,7 @@ function getCalc(){
   const acv=clientCount>0?Math.round(revenue/clientCount):0;
   const wageRatio=revExGST>0?wages/revExGST:0;
   const monthsToDebtFree=profit>0?debtOwing/profit:null;
-  return{autoRev,reRev,revenue,gst,revExGST,wages,opex,debtMonthly,debtOwing,totalExp,profit,margin,clientCount,acv,wageRatio,monthsToDebtFree};
+  return{autoRev,reRev,catsSorted,revenue,gst,revExGST,wages,opex,debtMonthly,debtOwing,totalExp,profit,margin,clientCount,acv,wageRatio,monthsToDebtFree};
 }
 
 // ring colour: 0-40 red, 41-74 amber, 75-99 green, 100 blue
@@ -858,8 +858,9 @@ function updateOverview(calc){
   document.getElementById('ov-revenue').textContent=fmt(calc.revenue);
   document.getElementById('ov-gst').textContent=fmt(calc.gst);
   const cat1El=document.getElementById('ov-cat1-label'),cat2El=document.getElementById('ov-cat2-label');
-  if(cat1El)cat1El.textContent=catsSorted[0]?catsSorted[0][0]+' revenue':'No categories';
-  if(cat2El)cat2El.textContent=catsSorted[1]?catsSorted[1][0]+' revenue':'—';
+  const cs=calc.catsSorted||[];
+  if(cat1El)cat1El.textContent=cs[0]?cs[0][0]+' revenue':'No categories';
+  if(cat2El)cat2El.textContent=cs[1]?cs[1][0]+' revenue':'—';
   document.getElementById('ov-cat1').textContent=fmt(calc.autoRev);
   document.getElementById('ov-cat2').textContent=fmt(calc.reRev);
   document.getElementById('ov-wages').textContent=fmt(calc.wages);
@@ -1163,29 +1164,26 @@ function buildClientsInsights(calc){
       action:`→ Keep this balance as you grow. It's one of the most underappreciated forms of business strength.`});
   }
 
-  // Split by type
-  const autoCount=catsSorted[0]?state.clients.filter(cl=>cl.type===catsSorted[0][0]).length:0;
-  const reCount=catsSorted[1]?state.clients.filter(cl=>cl.type===catsSorted[1][0]).length:0;
+  // Split by category (dynamic)
+  const cs2=calc.catsSorted||[];
+  const cat1Name=cs2[0]?cs2[0][0]:null;
+  const cat2Name=cs2[1]?cs2[1][0]:null;
   const autoRev=calc.autoRev,reRev=calc.reRev,total=calc.revenue;
-  if(autoCount>0&&reCount>0){
+  if(cat1Name&&cat2Name){
     const autoPct=total>0?Math.round((autoRev/total)*100):0;
-    if(autoPct>80)items.push({dot:'warn',title:`Heavy reliance on Automotive (${autoPct}% of revenue)`,
-      body:`Automotive accounts for ${autoPct}% of revenue. Real estate is still a small part of the mix — growing it would reduce sector risk and open a new growth channel.`,
-      action:`→ Real estate clients tend to have different seasonal patterns, which can smooth out the overall revenue curve.`});
-    else if(autoPct<20)items.push({dot:'warn',title:`Heavy reliance on Real Estate (${100-autoPct}% of revenue)`,
-      body:`Real estate is ${100-autoPct}% of revenue. A stronger automotive mix would provide balance across market conditions.`,
-      action:`→ Automotive is a proven market for this business — consider prioritising that pipeline.`});
+    if(autoPct>80)items.push({dot:'warn',title:`Heavy reliance on ${cat1Name} (${autoPct}% of revenue)`,
+      body:`${cat1Name} makes up ${autoPct}% of revenue. Adding more ${cat2Name} clients would reduce sector risk and open a new growth channel.`,
+      action:`→ Diversification across sectors smooths out revenue and reduces exposure to any single industry downturn.`});
+    else if(autoPct<20)items.push({dot:'warn',title:`Heavy reliance on ${cat2Name} (${100-autoPct}% of revenue)`,
+      body:`${cat2Name} makes up ${100-autoPct}% of revenue. Building more ${cat1Name} work would add balance.`,
+      action:`→ Aim for no single category to exceed 70-80% of total revenue.`});
     else items.push({dot:'good',title:`Good sector diversification`,
-      body:`Automotive (${autoPct}%) and Real Estate (${100-autoPct}%) are reasonably balanced. This means sector-specific downturns are less likely to hit the whole business at once.`,
-      action:`→ Keep building both verticals. Diversification across sectors is as valuable as diversification across clients.`});
-  } else if(autoCount>0){
-    items.push({dot:'warn',title:`All clients are Automotive`,
-      body:`Every client is in the Automotive sector. Real estate is an adjacent, proven market for this business with strong revenue potential.`,
-      action:`→ A single real estate client at ${fmt(2200)}/month would immediately add meaningful diversification.`});
-  } else if(reCount>0){
-    items.push({dot:'warn',title:`All clients are Real Estate`,
-      body:`Every client is in Real Estate. Automotive is a well-understood market for this type of media work — diversifying would reduce sector exposure.`,
-      action:`→ Identifying 2–3 automotive prospects would provide a meaningful hedge against real estate market conditions.`});
+      body:`${cat1Name} (${autoPct}%) and ${cat2Name} (${100-autoPct}%) are well balanced. Sector-specific downturns are less likely to hit the whole business at once.`,
+      action:`→ Keep building both categories. Diversification across sectors is as valuable as diversification across clients.`});
+  } else if(cat1Name){
+    items.push({dot:'warn',title:`All clients are ${cat1Name}`,
+      body:`Every client is in the ${cat1Name} category. Adding clients from a second category would reduce your exposure to any single sector.`,
+      action:`→ Even one or two clients in a new category provides meaningful diversification.`});
   }
 
   return`<div class="insights-wrap">${healthCard(items,'Client health','A summary of your client list')}</div>`;
