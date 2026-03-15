@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -361,6 +360,15 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
           </div>
         </div>
         <div class="tip-pill">A 30-second reel typically takes 1 to 2 hours to edit. Photos average 15 to 30 minutes per image.</div>
+        <div class="field-section-label">Expenses</div>
+        <div class="field">
+          <div class="field-label">Job expenses ($USD)</div>
+          <div class="field-input-wrap" style="max-width:260px">
+            <span class="sym">$</span>
+            <input class="field-input" type="number" id="job-expenses" placeholder="0" min="0" step="1" oninput="autoCalc()" onkeydown="if(event.key==='Enter')this.blur()">
+          </div>
+          <div class="tip-pill" style="margin-top:6px">Props, hire, transport, accommodation. Added directly to your quote.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -709,6 +717,7 @@ function autoCalc(){
   const shootHours=+document.getElementById('shoot-hours').value||0;
   const editHours=+document.getElementById('edit-hours').value||0;
   const travelKm=+document.getElementById('travel-km').value||0;
+  const jobExpenses=+document.getElementById('job-expenses').value||0;
   const expEl=document.querySelector('#exp-level .toggle-option.active');
   const expLevel=expEl?expEl.dataset.val:'established';
   const shootLocEl=document.querySelector('#shoot-location .toggle-option.active');
@@ -777,7 +786,7 @@ function autoCalc(){
   else if(turnaround==='14days'){rushFee=prodCost*0.2;rushLabel='Rush fee (+20%) — 14 day delivery';}
   else if(turnaround==='60days'){rushFee=-(prodCost*0.08);rushLabel='Extended timeline discount';}
 
-  const base=prodCost+travelCost+usageBase+platformPremium+exclusiveFee+whitelistFee+rawFee+collabAdj+postFee+rushFee;
+  const base=prodCost+travelCost+usageBase+platformPremium+exclusiveFee+whitelistFee+rawFee+collabAdj+postFee+rushFee+jobExpenses;
   const standard=Math.max(75,Math.round(base/50)*50);
   const discounted=Math.max(50,Math.round(standard*0.60/25)*25);
   const premium=Math.round(standard*1.40/50)*50;
@@ -788,6 +797,7 @@ function autoCalc(){
   if(numVideos>0)items.push({label:`${numVideos} video${numVideos>1?'s':''} at __VIDEO_RATE__ each (${videoLength}s)`,value:videoCost,type:'neutral',unitRate:videoRate,unitCount:numVideos,unitLabel:'video'});
   if(timeCost>photoCost+videoCost&&(shootHours>0||editHours>0))items.push({label:`Production time (${shootHours+editHours}h at $${tier.hourly}/h)`,value:timeCost,type:'neutral'});
   if(travelCost>0)items.push({label:'Travel',value:travelCost,type:'neutral'});
+  if(jobExpenses>0)items.push({label:'Job expenses',value:jobExpenses,type:'neutral'});
   if(usageBase>0)items.push({label:`Usage rights (${adUsage}, ${duration.replace('days',' days').replace('1year','1 year')})`,value:usageBase,type:'pos'});
   if(platformPremium>0)items.push({label:`Multi-platform licensing (${brandPlatformCount-1} additional platform${brandPlatformCount>2?'s':''})`,value:platformPremium,type:'pos'});
   if(exclusiveFee>0)items.push({label:'Exclusive rights (+40%)',value:exclusiveFee,type:'pos'});
@@ -934,7 +944,7 @@ function resetCalc(){
   // Deactivate all toggle options
   document.querySelectorAll('.toggle-option.active').forEach(el=>el.classList.remove('active'));
   // Clear inputs
-  ['num-photos','num-videos','video-length','shoot-hours','edit-hours','travel-km'].forEach(id=>{
+  ['num-photos','num-videos','video-length','shoot-hours','edit-hours','travel-km','job-expenses'].forEach(id=>{
     const el=document.getElementById(id);if(el)el.value='';
   });
   // Reset switches
