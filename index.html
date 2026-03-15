@@ -75,16 +75,12 @@ body::before{
 .gate-input.shake{animation:shakeX 0.4s ease}
 .gate-input.input-error{border-color:var(--red);box-shadow:0 0 0 3px rgba(240,96,96,0.15);animation:shakeX 0.4s ease}
 .gate-btn{
-  background:var(--green);border:none;border-radius:var(--radius-sm);
-  padding:10px 22px;font-size:14px;font-weight:600;color:#0e0e0e;
+  background:transparent;border:0.5px solid var(--green);border-radius:var(--radius-sm);
+  padding:10px 22px;font-size:14px;font-weight:600;color:var(--green);
   font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;
-  animation:greenBtnPulse 2.5s ease-in-out infinite;transition:opacity 0.15s;
+  transition:all 0.15s;
 }
-.gate-btn:hover{opacity:0.88}
-@keyframes greenBtnPulse{
-  0%,100%{filter:brightness(0.8)}
-  50%{filter:brightness(1.15)}
-}
+.gate-btn:hover{background:rgba(61,214,140,0.1);border-color:var(--green)}
 
 .gate-note{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:10px}
 
@@ -253,7 +249,7 @@ body::before{
 .featured-name-grad{color:#fff;display:block;-webkit-text-fill-color:#fff}
 .featured-sub{font-size:14px;color:var(--text2);line-height:1.6;max-width:380px;margin-bottom:20px}
 .featured-footer{display:flex;align-items:center;gap:14px}
-.featured-lock-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-family:'DM Mono',monospace;font-weight:600;letter-spacing:0.06em;padding:7px 16px;border-radius:20px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;border:none;cursor:pointer;animation:btnPulse 2s ease-in-out infinite}
+.featured-lock-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-family:'DM Mono',monospace;font-weight:600;letter-spacing:0.06em;padding:7px 16px;border-radius:20px;background:rgba(168,85,247,0.15);border:0.5px solid rgba(168,85,247,0.45);color:#c084fc;cursor:pointer;animation:btnPulse 2s ease-in-out infinite}
 .featured-card.unlocked-card .featured-lock-badge{background:rgba(168,85,247,0.18);border:0.5px solid rgba(168,85,247,0.45);color:#a855f7;animation:none}
 .featured-arrow{font-size:18px;color:#a855f7;transition:transform 0.15s,color 0.15s}
 .featured-card:not(.locked):hover .featured-arrow{transform:translateX(4px);color:#fff}
