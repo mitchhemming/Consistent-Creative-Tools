@@ -9,7 +9,7 @@
 :root{
   --bg:#08080f;--bg2:#111116;--bg3:#18181f;--bg4:#202028;
   --border:rgba(255,255,255,0.1);--border2:rgba(255,255,255,0.18);
-  --text:#f4f4f2;--text2:#dcdce8;--text3:#aaaabc;
+  --text:#ffffff;--text2:#e8e8e6;--text3:#9e9e9c;
   --green:#3dd68c;--green-dim:rgba(61,214,140,0.1);
   --red:#f06060;--red-dim:rgba(240,96,96,0.08);
   --amber:#f0a840;--amber-dim:rgba(240,168,64,0.1);
@@ -19,7 +19,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;padding:1.5rem 1.75rem 0}
-.page-wrap{max-width:940px;margin:0 auto;width:100%;flex:1}
+.page-wrap{max-width:940px;margin:0 auto;width:100%;flex:1;position:relative;z-index:1}
 
 /* ── Header ── */
 .cc-wordmark{margin-bottom:0.75rem;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;letter-spacing:0.01em}
@@ -50,9 +50,13 @@ body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans
 /* ── Tip card ── */
 .tip-card{border-radius:var(--radius);padding:12px 16px;margin-bottom:14px;background:rgba(240,168,64,0.05);border:0.5px solid var(--border2);border-left:2px solid var(--amber);transition:opacity 0.4s,max-height 0.4s,padding 0.4s,margin 0.4s;overflow:hidden;max-height:200px}
 .tip-card.done{opacity:0;max-height:0;padding:0;margin:0;pointer-events:none}
+.tip-card.green{background:rgba(61,214,140,0.05);border-left:2px solid var(--green)}
+.tip-card.red{background:rgba(240,96,96,0.05);border-left:2px solid var(--red)}
+.tip-card.green .tip-tag{color:var(--green)}
+.tip-card.red .tip-tag{color:var(--red)}
 .tip-header{display:flex;align-items:center;gap:8px;margin-bottom:4px}
 .tip-icon{font-size:12px}.tip-tag{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;font-family:'DM Mono',monospace;color:var(--amber)}
-.tip-body{font-size:12px;color:var(--text2);line-height:1.6}
+.tip-body{font-size:12px;color:var(--text);line-height:1.6}
 
 /* ── Revenue input ── */
 .revenue-input-wrap{background:var(--bg2);border-radius:var(--radius);padding:20px 24px;margin-bottom:1.5rem;border:0.5px solid var(--border)}
@@ -66,22 +70,21 @@ body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans
 
 /* ── Allocation table ── */
 .alloc-table{width:100%;border-collapse:collapse;margin-bottom:8px}
-.alloc-table th{font-size:11px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:0.1em;font-family:'DM Mono',monospace;padding:0 8px 10px;text-align:left}
+.alloc-table th{font-size:12px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:0.1em;font-family:'DM Mono',monospace;padding:0 8px 12px;text-align:left}
 .alloc-table th:nth-child(2),.alloc-table th:nth-child(3){text-align:right}
 .alloc-table th:last-child{width:28px}
-.alloc-row td{padding:4px 0;vertical-align:middle}
-.row-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-right:8px;display:inline-block}
+.alloc-row td{padding:7px 0;vertical-align:middle}
+.row-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;margin-right:10px;display:inline-block}
 .row-label-wrap{display:flex;align-items:center}
-.row-label-input{background:transparent;border:none;outline:none;color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:500;width:100%;cursor:text;border-bottom:1px solid transparent;transition:border-color 0.15s;padding-bottom:1px}
-.row-label-input:hover{border-bottom-color:var(--border2)}
+.row-label-input{background:transparent;border:none;outline:none;color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:500;width:100%;cursor:text;border-bottom:1px solid transparent;transition:border-color 0.15s;padding-bottom:1px}.row-label-input:hover{border-bottom-color:var(--border2)}
 .row-label-input:focus{border-bottom-color:var(--green)}
-.row-amt-cell,.row-pct-cell{text-align:right;padding:0 4px}
+.row-amt-cell,.row-pct-cell{text-align:right;padding:0 10px 0 4px}
 .field-dual{display:flex;align-items:center;justify-content:flex-end;gap:2px}
-.field-sym{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace}
-.field-input{font-size:15px;font-weight:600;font-family:'DM Mono',monospace;background:var(--bg3);border:0.5px solid var(--border);border-radius:var(--radius-sm);outline:none;color:var(--text);text-align:right;padding:6px 8px;transition:border-color 0.15s;width:100px}
+.field-sym{font-size:14px;color:var(--text3);font-family:'DM Mono',monospace}
+.field-input{font-size:17px;font-weight:600;font-family:'DM Mono',monospace;background:var(--bg3);border:0.5px solid var(--border);border-radius:var(--radius-sm);outline:none;color:var(--text);text-align:right;padding:7px 10px;transition:border-color 0.15s;width:110px}
 .field-input:focus{border-color:var(--green);background:var(--bg4)}
 .field-input::-webkit-inner-spin-button{-webkit-appearance:none}
-.field-pct{width:70px}
+.field-pct{width:76px}
 .btn-del-row{background:transparent;border:0.5px solid var(--border);border-radius:var(--radius-sm);width:26px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text3);font-size:14px;transition:all 0.15s;flex-shrink:0}
 .btn-del-row:hover{border-color:var(--red);color:var(--red);background:var(--red-dim)}
 .btn-add-row{display:flex;align-items:center;gap:6px;background:transparent;border:0.5px dashed var(--border2);border-radius:var(--radius-sm);padding:7px 12px;color:var(--text3);font-size:12px;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;transition:all 0.15s;margin-top:4px}
@@ -108,24 +111,24 @@ body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans
 .overview-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:2rem}
 @media(max-width:600px){.overview-grid{grid-template-columns:1fr}}
 .ring-card{background:var(--bg2);border-radius:var(--radius);padding:24px;border:0.5px solid var(--border);display:flex;flex-direction:column;align-items:center}
-.ring-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:20px;align-self:flex-start}
+.ring-title{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:20px;align-self:stretch;text-align:center;text-transform:uppercase;letter-spacing:0.12em;font-family:'DM Mono',monospace}
 .ring-wrap{position:relative;width:180px;height:180px;margin-bottom:20px}
 .ring-wrap svg{transform:rotate(-90deg)}
 .ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
 .ring-center-pct{font-size:28px;font-weight:600;font-family:'DM Mono',monospace;line-height:1}
 .ring-center-label{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:4px;text-transform:uppercase;letter-spacing:0.08em}
-.ring-legend{width:100%;display:flex;flex-direction:column;gap:6px}
-.legend-item{display:flex;align-items:center;gap:8px;font-size:12px}
-.legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.ring-legend{width:100%;display:flex;flex-direction:column;gap:8px}
+.legend-item{display:flex;align-items:center;gap:10px;font-size:15px}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
 .legend-label{color:var(--text);flex:1;font-weight:500}
-.legend-amt{font-family:'DM Mono',monospace;color:var(--text2);font-size:12px;font-weight:500}
-.legend-pct{font-family:'DM Mono',monospace;color:var(--text3);font-size:12px;margin-left:4px}
+.legend-amt{font-family:'DM Mono',monospace;color:var(--text2);font-size:15px;font-weight:500}
+.legend-pct{font-family:'DM Mono',monospace;color:var(--text3);font-size:14px;margin-left:4px}
 
 /* ── Overview summary card ── */
 .summary-card{background:var(--bg2);border-radius:var(--radius);padding:20px 24px;border:0.5px solid var(--border);margin-bottom:1rem}
 .summary-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid var(--border)}
 .summary-row:last-child{border-bottom:none}
-.summary-label{font-size:14px;color:var(--text2);font-weight:500}
+.summary-label{font-size:14px;color:var(--text);font-weight:500}
 .summary-val{font-size:15px;font-weight:600;font-family:'DM Mono',monospace;color:var(--text)}
 
 /* ── Insight cards ── */
@@ -144,23 +147,40 @@ body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans
 .insight-card.nudge .insight-tag{color:var(--amber)}
 .insight-card.health .insight-tag{color:var(--blue)}
 .insight-title{font-size:15px;font-weight:500;color:var(--text);margin-bottom:6px;line-height:1.3}
-.insight-body{font-size:12px;color:var(--text2);line-height:1.7}
+.insight-body{font-size:12px;color:var(--text);line-height:1.7}
 .insight-action{margin-top:10px;font-size:11px;font-family:'DM Mono',monospace;color:var(--text3);padding-top:8px;border-top:0.5px solid rgba(255,255,255,0.06);line-height:1.6}
 
-/* ── Footer ── */
-/* INSIGHTS GRID */
+/* ── Biz allocation block ── */
+.biz-alloc-wrap{display:flex;align-items:stretch;background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.biz-alloc-left{flex:1;min-width:0}
+.biz-alloc-table{width:100%;border-collapse:collapse;table-layout:fixed}
+.biz-alloc-table th{font-size:12px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:0.1em;font-family:'DM Mono',monospace;padding:14px 12px;text-align:center;border-bottom:0.5px solid var(--border)}
+.biz-alloc-table th:first-child{text-align:left;padding-left:24px}
+
+.biz-alloc-table td{padding:6px 12px;vertical-align:middle;text-align:center}
+.biz-alloc-table td:first-child{text-align:left;padding-left:24px}
+.biz-alloc-table td:last-child{width:36px;text-align:center}
+.biz-amt-cell{display:inline-flex;align-items:center;gap:2px;justify-content:center}
+.biz-pct-cell{display:inline-flex;align-items:center;gap:2px;justify-content:center}
+.biz-alloc-footer{padding:8px 24px 14px}
+.biz-alloc-ring{flex-shrink:0;width:260px;border-left:0.5px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:0}
+.biz-ring-header{width:100%;font-size:12px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:0.1em;font-family:'DM Mono',monospace;text-align:center;padding:14px 12px;border-bottom:0.5px solid var(--border)}
+.biz-ring-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:12px;gap:0;width:100%}
+.biz-ring-body .ring-wrap{width:100%;aspect-ratio:1;margin:0;max-width:none}
+@media(max-width:700px){.biz-alloc-ring{display:none}}
+
 .insights-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%/2 - 10px,260px),1fr));gap:10px;margin-top:4px}
-.ins-card{border-radius:var(--radius);padding:16px 18px;border:0.5px solid var(--border2)}
+.ins-card{border-radius:var(--radius);padding:20px 22px;border:0.5px solid var(--border2)}
 .ins-card.strength{background:rgba(61,214,140,0.05);border-left:2px solid var(--green)}
 .ins-card.weakness{background:rgba(240,96,96,0.05);border-left:2px solid var(--red)}
 .ins-card.nudge{background:rgba(240,168,64,0.05);border-left:2px solid var(--amber)}
-.ins-tag{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;font-family:'DM Mono',monospace}
+.ins-tag{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;font-family:'DM Mono',monospace}
 .ins-card.strength .ins-tag{color:var(--green)}
 .ins-card.weakness .ins-tag{color:var(--red)}
 .ins-card.nudge .ins-tag{color:var(--amber)}
-.ins-title{font-size:15px;font-weight:600;color:var(--text);margin:6px 0 5px;line-height:1.3}
-.ins-body{font-size:13px;color:var(--text2);line-height:1.65}
-.ins-action{margin-top:8px;font-size:11px;font-family:'DM Mono',monospace;color:var(--text3);padding-top:8px;border-top:0.5px solid rgba(255,255,255,0.06);line-height:1.5}
+.ins-title{font-size:17px;font-weight:600;color:var(--text);margin:7px 0 6px;line-height:1.3}
+.ins-body{font-size:14px;color:var(--text);line-height:1.7}
+.ins-action{margin-top:10px;font-size:12px;font-family:'DM Mono',monospace;color:var(--text2);padding-top:10px;border-top:0.5px solid rgba(255,255,255,0.06);line-height:1.5}
 
 .footer{position:relative;z-index:1;padding:1.25rem 2rem;border-top:0.5px solid var(--border);text-align:center;margin-top:2.5rem}
 .footer p{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;line-height:1.9}
@@ -228,63 +248,63 @@ body::after{
     <div class="tip-body">Enter your average monthly revenue, then allocate it across categories. Adjust percentages or dollar amounts — the other updates automatically. Aim for exactly 100%.</div>
   </div>
 
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start">
+  <!-- Revenue: full width -->
+  <div class="section-label">Monthly revenue</div>
+  <div class="revenue-input-wrap" style="margin-bottom:1.5rem">
+    <div class="rev-label">Average monthly revenue</div>
+    <div class="rev-input-row">
+      <span class="rev-sym">$</span>
+      <input class="rev-input" type="text" inputmode="numeric" id="biz-revenue" placeholder="0"
+      onfocus="this.value=this.value.replace(/,/g,'')"
+      onblur="formatRevInput(this);onRevChange('biz')"
+      onkeydown="if(event.key==='Enter'){this.blur();}"
+      oninput="onRevChange('biz')">
+    </div>
+    <div class="rev-sub" id="biz-rev-sub"></div>
+  </div>
 
-    <!-- Left: Revenue + Allocation -->
-    <div>
-      <div class="section-label">Monthly revenue</div>
-      <div class="revenue-input-wrap" style="margin-bottom:1.25rem">
-        <div class="rev-label">Average monthly revenue</div>
-        <div class="rev-input-row">
-          <span class="rev-sym">$</span>
-          <input class="rev-input" type="text" inputmode="numeric" id="biz-revenue" placeholder="0"
-          onfocus="this.value=this.value.replace(/,/g,'')"
-          onblur="formatRevInput(this);onRevChange('biz')"
-          onkeydown="if(event.key==='Enter'){this.blur();}"
-          oninput="onRevChange('biz')">
-        </div>
-        <div class="rev-sub" id="biz-rev-sub"></div>
-      </div>
+  <!-- Allocation block: unified grid -->
+  <div class="biz-alloc-wrap">
 
-      <div class="section-label">Allocation</div>
-      <table class="alloc-table">
+    <!-- Left: table -->
+    <div class="biz-alloc-left">
+      <table class="biz-alloc-table">
         <thead><tr>
-          <th style="width:36%">Category</th>
-          <th style="width:28%">Amount</th>
-          <th style="width:22%">%</th>
-          <th style="width:14%"></th>
+          <th>Allocation</th>
+          <th>Amount $</th>
+          <th>Percentage %</th>
         </tr></thead>
         <tbody id="biz-rows"></tbody>
       </table>
-      <button class="btn-add-row" id="biz-add-btn" onclick="addRow('biz')">+ Add category</button>
-
-      <div class="total-bar" style="margin-top:12px">
-        <div>
-          <div class="total-label">Total allocated</div>
-          <div class="progress-track" style="width:140px;margin-top:6px"><div class="progress-fill" id="biz-progress"></div></div>
-        </div>
-        <div style="text-align:right">
-          <div class="total-pct" id="biz-total-pct">0%</div>
-          <div class="total-amt" id="biz-total-amt">$0 of $0</div>
-        </div>
+      <div class="biz-alloc-footer">
+        <button class="btn-add-row" id="biz-add-btn" onclick="addRow('biz')">+ Add category</button>
+        <div id="biz-total-pct" style="display:none"></div>
+        <div id="biz-total-amt" style="display:none"></div>
+        <div id="biz-progress" style="display:none"></div>
+        <div id="biz-status" style="display:none"></div>
       </div>
-      <div class="status-banner" id="biz-status"></div>
     </div>
 
-    <!-- Right: Live ring -->
-    <div style="position:sticky;top:80px">
-      <div class="section-label">Split</div>
-      <div style="background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius);padding:20px 24px">
-        <div style="display:flex;justify-content:center;margin-bottom:16px">
-          <div class="ring-wrap"><svg id="biz-ring-svg-inline" width="180" height="180" viewBox="0 0 180 180"></svg><div class="ring-center"><div class="ring-center-pct" id="biz-ring-pct-inline">0%</div><div class="ring-center-label">Allocated</div></div></div>
+    <!-- Right: ring -->
+    <div class="biz-alloc-ring">
+      <div class="biz-ring-header">Split</div>
+      <div class="biz-ring-body">
+        <div class="ring-wrap">
+          <svg id="biz-ring-svg-inline" viewBox="0 0 180 180" style="width:100%;height:100%"></svg>
+          <div class="ring-center">
+            <div class="ring-center-pct" id="biz-ring-pct-inline" style="font-size:22px">0%</div>
+            <div class="ring-center-label">Allocated</div>
+          </div>
         </div>
-        <div id="biz-ring-legend-inline" style="display:flex;flex-direction:column;gap:8px"></div>
       </div>
     </div>
 
   </div>
 
-  <div class="section-label" style="margin-top:1.75rem">Insights</div>
+  <div class="tip-card" id="biz-alloc-status" style="display:none;margin-top:10px"></div>
+
+  <div id="biz-ring-legend-inline" style="display:none"></div>
+  <div class="section-label" id="biz-insights-label" style="margin-top:1.5rem;display:none">Insights</div>
   <div id="biz-insights"></div>
 
 </div>
@@ -297,53 +317,71 @@ body::after{
     <div class="tip-body">Your Owner Pay from the Business tab flows in automatically. Add any other income sources, then allocate the total across your personal categories.</div>
   </div>
 
+  <!-- Income: 2 blocks side by side -->
   <div class="section-label">Personal income</div>
-  <div class="revenue-input-wrap">
-    <div class="rev-label">Owner pay (from business)</div>
-    <div class="rev-input-row">
-      <span class="rev-sym" style="color:var(--green)">$</span>
-      <input class="rev-input" type="text" id="personal-owner-pay" placeholder="0" readonly style="color:var(--green);cursor:default">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem">
+    <div class="revenue-input-wrap" style="margin-bottom:0">
+      <div class="rev-label">Owner pay (from business)</div>
+      <div class="rev-input-row">
+        <span class="rev-sym" style="color:var(--green)">$</span>
+        <input class="rev-input" type="text" id="personal-owner-pay" placeholder="0" readonly style="color:var(--green);cursor:default">
+      </div>
+      <div class="rev-sub">Updates automatically from Business tab</div>
     </div>
-    <div class="rev-sub">Updates automatically from your Business tab Owner Pay allocation</div>
-  </div>
-
-  <div class="revenue-input-wrap" style="margin-top:-0.75rem">
-    <div class="rev-label">Other income (optional)</div>
-    <div class="rev-input-row">
-      <span class="rev-sym">$</span>
-      <input class="rev-input" type="text" inputmode="numeric" id="personal-other" placeholder="0"
-      onfocus="this.value=this.value.replace(/,/g,'')"
-      onblur="formatRevInput(this);onRevChange('personal')"
-      onkeydown="if(event.key==='Enter'){this.blur();}"
-      oninput="onRevChange('personal')">
-    </div>
-    <div class="rev-sub">Salary from job, partner income, investments, second business etc. Leave as $0 if not applicable.</div>
-  </div>
-
-  <div class="section-label">Allocation</div>
-  <table class="alloc-table">
-    <thead><tr>
-      <th style="width:36%">Category</th>
-      <th style="width:28%">Amount</th>
-      <th style="width:22%">%</th>
-      <th style="width:14%"></th>
-    </tr></thead>
-    <tbody id="personal-rows"></tbody>
-  </table>
-  <button class="btn-add-row" id="personal-add-btn" onclick="addRow('personal')">+ Add category</button>
-
-  <div class="total-bar">
-    <div>
-      <div class="total-label">Total allocated</div>
-      <div class="progress-track" style="width:200px"><div class="progress-fill" id="personal-progress"></div></div>
-    </div>
-    <div style="text-align:right">
-      <div class="total-pct" id="personal-total-pct">0%</div>
-      <div class="total-amt" id="personal-total-amt">$0 of $0</div>
+    <div class="revenue-input-wrap" style="margin-bottom:0">
+      <div class="rev-label">Other income (optional)</div>
+      <div class="rev-input-row">
+        <span class="rev-sym">$</span>
+        <input class="rev-input" type="text" inputmode="numeric" id="personal-other" placeholder="0"
+        onfocus="this.value=this.value.replace(/,/g,'')"
+        onblur="formatRevInput(this);onRevChange('personal')"
+        onkeydown="if(event.key==='Enter'){this.blur();}"
+        oninput="onRevChange('personal')">
+      </div>
+      <div class="rev-sub">Salary, investments, other sources</div>
     </div>
   </div>
-  <div class="status-banner" id="personal-status"></div>
-  <div id="personal-insights" style="margin-top:1rem"></div>
+
+  <!-- Allocation block: same layout as business -->
+  <div class="biz-alloc-wrap">
+
+    <div class="biz-alloc-left">
+      <table class="biz-alloc-table">
+        <thead><tr>
+          <th>Allocation</th>
+          <th>Amount $</th>
+          <th>Percentage %</th>
+        </tr></thead>
+        <tbody id="personal-rows"></tbody>
+      </table>
+      <div class="biz-alloc-footer">
+        <button class="btn-add-row" id="personal-add-btn" onclick="addRow('personal')">+ Add category</button>
+        <div id="personal-total-pct" style="display:none"></div>
+        <div id="personal-total-amt" style="display:none"></div>
+        <div id="personal-progress" style="display:none"></div>
+        <div id="personal-status" style="display:none"></div>
+      </div>
+    </div>
+
+    <div class="biz-alloc-ring">
+      <div class="biz-ring-header">Split</div>
+      <div class="biz-ring-body">
+        <div class="ring-wrap">
+          <svg id="personal-ring-svg-inline" viewBox="0 0 180 180" style="width:100%;height:100%"></svg>
+          <div class="ring-center">
+            <div class="ring-center-pct" id="personal-ring-pct-inline" style="font-size:22px">0%</div>
+            <div class="ring-center-label">Allocated</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="tip-card" id="personal-alloc-status" style="display:none;margin-top:10px"></div>
+  <div id="personal-ring-legend-inline" style="display:none"></div>
+  <div class="section-label" id="personal-insights-label" style="margin-top:1.5rem;display:none">Insights</div>
+  <div id="personal-insights"></div>
 
 </div>
 
@@ -362,14 +400,6 @@ body::after{
     </div>
   </div>
 
-  <div class="section-label">Summary</div>
-  <div class="summary-card">
-    <div class="summary-row"><div class="summary-label">Total business revenue</div><div class="summary-val" id="ov-biz-rev">$0</div></div>
-    <div class="summary-row"><div class="summary-label">Owner pay</div><div class="summary-val" id="ov-owner-pay">$0</div></div>
-    <div class="summary-row"><div class="summary-label">Other personal income</div><div class="summary-val" id="ov-other-inc">$0</div></div>
-    <div class="summary-row"><div class="summary-label">Total personal income</div><div class="summary-val" id="ov-personal-total">$0</div></div>
-  </div>
-
   <div class="section-label">Insights</div>
   <div class="insights-grid" id="ov-insights"></div>
 </div>
@@ -386,7 +416,7 @@ body::after{
 document.getElementById('footer-year').textContent=new Date().getFullYear();
 
 const SK='revenue_allocator_v1';
-const RAINBOW=['#3dd68c','#60aaff','#c084fc','#f0d840','#f472b6','#3dd68c','#60aaff'];
+const RAINBOW=['#3dd68c','#60aaff','#c084fc','#f0d840','#f472b6','#fb923c','#e879f9'];
 const MAX_ROWS=7;
 
 const defaultBizRows=[
@@ -442,6 +472,7 @@ function resetAll(){
   if(!confirm('Reset all data? This cannot be undone.'))return;
   state={bizRevenue:0,bizRows:JSON.parse(JSON.stringify(defaultBizRows)),personalOther:0,personalRows:JSON.parse(JSON.stringify(defaultPersonalRows))};
   try{localStorage.removeItem(SK);}catch(e){}
+  try{window.storage.delete(SK);}catch(e){}
   hist=[];applyDOM();update();queueSave();
 }
 
@@ -569,11 +600,19 @@ function updateTotals(tab){
   drawRing(tab);
   updateOverviewSummary();
   updateTipVisibility();
+  if(tab==='biz')updateAllocStatus();
+  if(tab==='personal')updatePersonalAllocStatus();
   // Update tab insights
   const bizIns=document.getElementById('biz-insights');
-  if(bizIns)bizIns.innerHTML=buildBizInsights();
+  const bizInsHTML=buildBizInsights();
+  if(bizIns)bizIns.innerHTML=bizInsHTML;
+  const bizInsLabel=document.getElementById('biz-insights-label');
+  if(bizInsLabel)bizInsLabel.style.display=bizInsHTML?'block':'none';
   const persIns=document.getElementById('personal-insights');
-  if(persIns)persIns.innerHTML=buildPersonalInsights();
+  const persInsHTML=buildPersonalInsights();
+  if(persIns)persIns.innerHTML=persInsHTML;
+  const persInsLabel=document.getElementById('personal-insights-label');
+  if(persInsLabel)persInsLabel.style.display=persInsHTML?'block':'none';
   renderInsights();
 }
 
@@ -596,10 +635,10 @@ function updateOverviewSummary(){
   const ownerPay=getOwnerPay();
   const other=+state.personalOther||0;
   const personalRev=getRevenue('personal');
-  document.getElementById('ov-biz-rev').textContent=fmt(bizRev);
-  document.getElementById('ov-owner-pay').textContent=fmt(ownerPay);
-  document.getElementById('ov-other-inc').textContent=fmt(other);
-  document.getElementById('ov-personal-total').textContent=fmt(personalRev);
+  const e1=document.getElementById('ov-biz-rev');if(e1)e1.textContent=fmt(bizRev);
+  const e2=document.getElementById('ov-owner-pay');if(e2)e2.textContent=fmt(ownerPay);
+  const e3=document.getElementById('ov-other-inc');if(e3)e3.textContent=fmt(other);
+  const e4=document.getElementById('ov-personal-total');if(e4)e4.textContent=fmt(personalRev);
 }
 
 // ── Add/remove rows ───────────────────────────────────────────────────────
@@ -625,38 +664,68 @@ function renderRows(tab){
   const rows=getRows(tab);
   const rev=getRevenue(tab);
   const tbody=document.getElementById(tab+'-rows');
-  tbody.innerHTML=rows.map((row,i)=>{
-    const col=RAINBOW[i%RAINBOW.length];
-    const locked=(tab==='biz'&&LOCKED_BIZ.includes(row.id))||(tab==='personal'&&LOCKED_PERSONAL.includes(row.id));
-    return`<tr class="alloc-row">
-      <td><div class="row-label-wrap">
-        <span class="row-dot" style="background:${col}"></span>
-        ${locked
-          ? `<span class="row-label-input" style="cursor:default;border-color:transparent;color:var(--text)">${row.label}</span>`
-          : `<input class="row-label-input" value="${row.label.replace(/"/g,'&quot;')}" onchange="onLabelChange('${tab}','${row.id}',this.value)">`
-        }
-      </div></td>
-      <td class="row-amt-cell"><div class="field-dual">
-        <span class="field-sym">$</span>
-        <input class="field-input" id="amt-${row.id}" type="text" inputmode="numeric"
-          value="${fmtComma(row.amt)}" placeholder="0"
-          onfocus="this.value=this.value.replace(/,/g,'')"
-          onblur="this.value=fmtComma(parseFloat(this.value.replace(/,/g,''))||0)"
-          onkeydown="if(event.key==='Enter')this.blur()"
-          oninput="onAmtChange('${tab}','${row.id}',this.value.replace(/,/g,''))">
-      </div></td>
-      <td class="row-pct-cell"><div class="field-dual">
-        <input class="field-input field-pct" id="pct-${row.id}" type="number" value="${row.pct||''}" placeholder="0" min="0" max="100" step="0.1"
-          onkeydown="if(event.key==='Enter')this.blur()"
-          oninput="onPctChange('${tab}','${row.id}',this.value)">
-        <span class="field-sym">%</span>
-      </div></td>
-      <td style="text-align:center">${locked
-        ? `<span style="width:28px;display:inline-block"></span>`
-        : `<button class="btn-del-row" onclick="removeRow('${tab}','${row.id}')">×</button>`
-      }</td>
-    </tr>`;
-  }).join('');
+  if(tab==='biz'){
+    tbody.innerHTML=rows.map((row,i)=>{
+      const col=RAINBOW[i%RAINBOW.length];
+      const locked=LOCKED_BIZ.includes(row.id);
+      return`<tr>
+        <td><div class="row-label-wrap">
+          <span class="row-dot" style="background:${col}"></span>
+          ${locked
+            ? `<span class="row-label-input" style="cursor:default;border-color:transparent;color:var(--text)">${row.label}</span>`
+            : `<input class="row-label-input" value="${row.label.replace(/"/g,'&quot;')}" onchange="onLabelChange('${tab}','${row.id}',this.value)">`
+          }
+        </div></td>
+        <td><div class="biz-amt-cell">
+          <span class="field-sym">$</span>
+          <input class="field-input" id="amt-${row.id}" type="text" inputmode="numeric"
+            value="${fmtComma(row.amt)}" placeholder="0"
+            onfocus="this.value=this.value.replace(/,/g,'')"
+            onblur="this.value=fmtComma(parseFloat(this.value.replace(/,/g,''))||0)"
+            onkeydown="if(event.key==='Enter')this.blur()"
+            oninput="onAmtChange('${tab}','${row.id}',this.value.replace(/,/g,''))">
+        </div></td>
+        <td><div class="biz-pct-cell">
+          <input class="field-input field-pct" id="pct-${row.id}" type="number" value="${row.pct||''}" placeholder="0" min="0" max="100" step="0.1"
+            onkeydown="if(event.key==='Enter')this.blur()"
+            oninput="onPctChange('${tab}','${row.id}',this.value)">
+          <span class="field-sym">%</span>
+          ${locked?'<span style="display:inline-block;width:26px"></span>':`<button class="btn-del-row" onclick="removeRow('${tab}','${row.id}')">×</button>`}
+        </div></td>
+      </tr>`;
+    }).join('');
+  } else {
+    // Table rows for personal tab — same styling as biz
+    tbody.innerHTML=rows.map((row,i)=>{
+      const col=RAINBOW[i%RAINBOW.length];
+      const locked=LOCKED_PERSONAL.includes(row.id);
+      return`<tr>
+        <td><div class="row-label-wrap">
+          <span class="row-dot" style="background:${col}"></span>
+          ${locked
+            ? `<span class="row-label-input" style="cursor:default;border-color:transparent;color:var(--text)">${row.label}</span>`
+            : `<input class="row-label-input" value="${row.label.replace(/"/g,'&quot;')}" onchange="onLabelChange('${tab}','${row.id}',this.value)">`
+          }
+        </div></td>
+        <td><div class="biz-amt-cell">
+          <span class="field-sym">$</span>
+          <input class="field-input" id="amt-${row.id}" type="text" inputmode="numeric"
+            value="${fmtComma(row.amt)}" placeholder="0"
+            onfocus="this.value=this.value.replace(/,/g,'')"
+            onblur="this.value=fmtComma(parseFloat(this.value.replace(/,/g,''))||0)"
+            onkeydown="if(event.key==='Enter')this.blur()"
+            oninput="onAmtChange('${tab}','${row.id}',this.value.replace(/,/g,''))">
+        </div></td>
+        <td><div class="biz-pct-cell">
+          <input class="field-input field-pct" id="pct-${row.id}" type="number" value="${row.pct||''}" placeholder="0" min="0" max="100" step="0.1"
+            onkeydown="if(event.key==='Enter')this.blur()"
+            oninput="onPctChange('${tab}','${row.id}',this.value)">
+          <span class="field-sym">%</span>
+          ${locked?'<span style="display:inline-block;width:26px"></span>':`<button class="btn-del-row" onclick="removeRow('${tab}','${row.id}')">×</button>`}
+        </div></td>
+      </tr>`;
+    }).join('');
+  }
 
   // Total
   const totalPct=rows.reduce((s,r)=>s+(+r.pct||0),0);
@@ -695,24 +764,71 @@ function renderRows(tab){
   }
 }
 
-// ── Ring chart ────────────────────────────────────────────────────────────
+// ── Allocation status tip (biz tab) ──────────────────────────────────────
+function updateAllocStatus(){
+  const card=document.getElementById('biz-alloc-status');
+  if(!card)return;
+  const rows=state.bizRows;
+  const rev=+state.bizRevenue||0;
+  const totalPct=Math.round(rows.reduce((s,r)=>s+(+r.pct||0),0)*10)/10;
+  const totalAmt=rows.reduce((s,r)=>s+(+r.amt||0),0);
+
+  if(rev===0||totalPct===0){card.style.display='none';return;}
+
+  card.style.display='block';
+  card.className='tip-card';
+
+  if(totalPct===100){
+    card.classList.add('green');
+    card.innerHTML=`<div class="tip-header"><span class="tip-icon">✦</span><span class="tip-tag">Fully allocated</span></div><div class="tip-body">100% — every dollar has a job.</div>`;
+  } else if(totalPct>100){
+    const over=Math.round((totalPct-100)*10)/10;
+    const overAmt=fmt(totalAmt-rev);
+    card.classList.add('red');
+    card.innerHTML=`<div class="tip-header"><span class="tip-icon">◎</span><span class="tip-tag">Over-allocated</span></div><div class="tip-body">${totalPct}% allocated — reduce by ${over}% (${overAmt}) to balance.</div>`;
+  } else {
+    const remaining=Math.round((100-totalPct)*10)/10;
+    const remainAmt=fmt(rev-totalAmt);
+    card.innerHTML=`<div class="tip-header"><span class="tip-icon">💡</span><span class="tip-tag">In progress</span></div><div class="tip-body">${totalPct}% allocated — ${remaining}% remaining (${remainAmt}) to assign.</div>`;
+  }
+}
+
+// ── Allocation status tip (personal tab) ─────────────────────────────────
+function updatePersonalAllocStatus(){
+  const card=document.getElementById('personal-alloc-status');
+  if(!card)return;
+  const rows=state.personalRows;
+  const rev=getRevenue('personal');
+  const totalPct=Math.round(rows.reduce((s,r)=>s+(+r.pct||0),0)*10)/10;
+  const totalAmt=rows.reduce((s,r)=>s+(+r.amt||0),0);
+  if(rev===0||totalPct===0){card.style.display='none';return;}
+  card.style.display='block';
+  card.className='tip-card';
+  if(totalPct===100){
+    card.classList.add('green');
+    card.innerHTML=`<div class="tip-header"><span class="tip-icon">✦</span><span class="tip-tag">Fully allocated</span></div><div class="tip-body">100% — every dollar has a job.</div>`;
+  } else if(totalPct>100){
+    const over=Math.round((totalPct-100)*10)/10;
+    card.classList.add('red');
+    card.innerHTML=`<div class="tip-header"><span class="tip-icon">◎</span><span class="tip-tag">Over-allocated</span></div><div class="tip-body">${totalPct}% allocated — reduce by ${over}% (${fmt(totalAmt-rev)}) to balance.</div>`;
+  } else {
+    const remaining=Math.round((100-totalPct)*10)/10;
+    card.innerHTML=`<div class="tip-header"><span class="tip-icon">💡</span><span class="tip-tag">In progress</span></div><div class="tip-body">${totalPct}% allocated — ${remaining}% remaining (${fmt(rev-totalAmt)}) to assign.</div>`;
+  }
+}
+
+
 function drawRing(tab){
   const rows=getRows(tab);
   const rev=getRevenue(tab);
-  // Draw to both overview ring and inline ring (if exists)
-  const svgIds=[tab+'-ring-svg',tab+'-ring-svg-inline'].filter(id=>document.getElementById(id));
-  const legendIds=[tab+'-ring-legend',tab+'-ring-legend-inline'].filter(id=>document.getElementById(id));
-  const pctIds=[tab+'-ring-pct',tab+'-ring-pct-inline'].filter(id=>document.getElementById(id));
-  const svg=document.getElementById(tab+'-ring-svg')||document.getElementById(tab+'-ring-svg-inline');
-  const legend=document.getElementById(tab+'-ring-legend')||document.getElementById(tab+'-ring-legend-inline');
-  const pctEl=document.getElementById(tab+'-ring-pct')||document.getElementById(tab+'-ring-pct-inline');
   const cx=90,cy=90,r=72,stroke=18;
   const circ=2*Math.PI*r;
-  const totalPct=Math.min(rows.reduce((s,row)=>s+(+row.pct||0),0),100);
-  pctEl.textContent=Math.round(totalPct)+'%';
-  pctEl.style.color=totalPct===100?'var(--green)':totalPct>100?'var(--red)':'var(--blue)';
+  const totalPct=rows.reduce((s,row)=>s+(+row.pct||0),0);
+  const displayPct=Math.min(totalPct,100);
+  const pctColor=totalPct===100?'var(--green)':totalPct>100?'var(--red)':'var(--blue)';
 
-  const gap=1.5; // px gap between segments
+  // Build SVG
+  const gap=1.5;
   let svgHTML=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--bg4)" stroke-width="${stroke}"/>`;
   let offset=0;
   rows.forEach((row,i)=>{
@@ -721,18 +837,15 @@ function drawRing(tab){
     const col=RAINBOW[i%RAINBOW.length];
     const dashLen=Math.max(0,(pct/100)*circ-gap);
     const gapLen=circ-dashLen;
-    // stroke-dashoffset starts at top (-90deg = circ/4 from start)
     const dashOffset=circ/4-(offset/100)*circ;
     svgHTML+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${col}" stroke-width="${stroke}"
       stroke-dasharray="${dashLen.toFixed(2)} ${gapLen.toFixed(2)}"
       stroke-dashoffset="${dashOffset.toFixed(2)}"/>`;
     offset+=pct;
   });
-  svg.innerHTML=svgHTML;
-  svgIds.forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=svgHTML;});
-  pctIds.forEach(id=>{const el=document.getElementById(id);if(el){el.textContent=Math.round(totalPct)+'%';el.style.color=totalPct===100?'var(--green)':totalPct>100?'var(--red)':'var(--blue)';}});
 
-  legend.innerHTML=rows.map((row,i)=>{
+  // Build legend HTML
+  const legendHTML=rows.map((row,i)=>{
     const col=RAINBOW[i%RAINBOW.length];
     const pct=+row.pct||0;
     return`<div class="legend-item">
@@ -742,6 +855,18 @@ function drawRing(tab){
       <span class="legend-pct">${pct}%</span>
     </div>`;
   }).join('');
+
+  // Apply to all matching elements (inline + overview)
+  [tab+'-ring-svg',tab+'-ring-svg-inline'].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.innerHTML=svgHTML;
+  });
+  [tab+'-ring-pct',tab+'-ring-pct-inline'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){el.textContent=Math.round(totalPct)+'%';el.style.color=pctColor;}
+  });
+  [tab+'-ring-legend',tab+'-ring-legend-inline'].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.innerHTML=legendHTML;
+  });
 }
 
 // ── Overview insights ─────────────────────────────────────────────────────
@@ -851,15 +976,11 @@ function renderInsights(){
     return;
   }
 
-  // Sort by score and pick 2–4 based on data completeness
   candidates.sort((a,b)=>b.score-a.score);
-  const maxCards = hasSignificantData ? 4 : candidates.length>=3 ? 3 : 2;
-  const picked = candidates.slice(0, maxCards);
+  const picked=candidates.slice(0,3);
   if(!picked.length)return;
 
-  const n=picked.length;
-  const cols=n<=2?2:n===3?3:4;
-  el.style.gridTemplateColumns=`repeat(${cols},1fr)`;
+  el.style.gridTemplateColumns='repeat(3,1fr)';
   el.innerHTML=picked.map(c=>c.card.html).join('');
 }
 
@@ -877,14 +998,10 @@ function insightCard(type,icon,tag,title,body,action){
 }
 function wrapInsights(allCards){
   if(!allCards.length)return'';
-  // Priority order: weakness first, then nudge, then strength — cap at 4
   const byType=t=>allCards.filter(h=>h.type===t);
   const ordered=[...byType('weakness'),...byType('nudge'),...byType('strength')];
-  const cards=ordered.slice(0,4);
-  // Enforce minimum 2 — if only 1 card, pad with an empty placeholder to maintain grid
-  const n=cards.length;
-  const cols=n<=2?2:n===3?3:4;
-  return`<div class="insights-grid" style="grid-template-columns:repeat(${cols},1fr)">${cards.map(h=>h.html).join('')}</div>`;
+  const cards=ordered.slice(0,3);
+  return`<div class="insights-grid" style="grid-template-columns:repeat(3,1fr)">${cards.map(h=>h.html).join('')}</div>`;
 }
 
 function buildBizInsights(){
@@ -909,23 +1026,7 @@ function buildBizInsights(){
   // Build candidate cards — scored by urgency (weakness=3, nudge=2, strength=1)
   const candidates=[];
 
-  // 1. Allocation status — always show
-  if(totalPct>100){
-    candidates.push({score:3,card:insightCard('weakness','◎','Over-allocated',`Over-allocated by ${Math.round(totalPct-100)}%`,
-      `Your allocations add up to ${Math.round(totalPct)}% which is more than your revenue. Something needs to come down.`,
-      '→ Reduce one or more categories until the total reaches exactly 100%.')});
-  } else if(totalPct===100){
-    candidates.push({score:1,card:insightCard('strength','✦','Allocation','Every dollar allocated',
-      `Your ${fmt(rev)} monthly revenue is fully allocated across ${rows.filter(r=>+r.pct>0).length} categories.`,
-      '→ Review this quarterly as your revenue grows.')});
-  } else if(totalPct>0){
-    const unalloc=fmt(rev*(100-totalPct)/100);
-    candidates.push({score:2,card:insightCard('nudge','💡','Unallocated',`${Math.round(100-totalPct)}% unassigned — ${unalloc}/mo`,
-      `You have ${unalloc}/month with no destination yet. The most common use is savings or a business buffer.`,
-      '→ Every unallocated dollar is a missed opportunity to build intentionally.')});
-  }
-
-  // 2. Owner pay — always show a card
+  // 1. Owner pay — always show a card
   if(ownerPct===0&&rev>0){
     candidates.push({score:3,card:insightCard('weakness','◎','Owner pay','Owner pay is $0',
       `You have ${fmt(rev)}/mo revenue but no owner pay set. You need to pay yourself — aim for 30–50%.`,
@@ -982,9 +1083,10 @@ function buildBizInsights(){
       '→ Keep this as revenue grows — resist the urge to spend windfalls before the buffer is solid.')});
   }
 
-  // Sort by score desc and take top 4
-  const top4=candidates.sort((a,b)=>b.score-a.score).slice(0,4).map(c=>c.card);
-  return wrapInsights(top4);
+  // Sort by score desc and take top 3
+  const top3=candidates.sort((a,b)=>b.score-a.score).slice(0,3).map(c=>c.card);
+  if(!top3.length)return'';
+  return`<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">${top3.map(c=>c.html).join('')}</div>`;
 }
 
 
@@ -1082,8 +1184,8 @@ function buildPersonalInsights(){
       '→ Track against this monthly — even a rough check every few weeks makes a difference.')});
   }
 
-  const top4=candidates.sort((a,b)=>b.score-a.score).slice(0,4).map(c=>c.card);
-  return wrapInsights(top4);
+  const top3=candidates.sort((a,b)=>b.score-a.score).slice(0,3).map(c=>c.card);
+  return wrapInsights(top3);
 }
 
 
@@ -1100,25 +1202,25 @@ function update(){
   drawRing('biz');
   drawRing('personal');
 
-  // Overview summary
-  const bizRev=+state.bizRevenue||0;
-  const other=+state.personalOther||0;
-  const personalRev=getRevenue('personal');
-  document.getElementById('ov-biz-rev').textContent=fmt(bizRev);
-  document.getElementById('ov-owner-pay').textContent=fmt(ownerPay);
-  document.getElementById('ov-other-inc').textContent=fmt(other);
-  document.getElementById('ov-personal-total').textContent=fmt(personalRev);
-
   // Biz rev sub
   const bizRows=state.bizRows;
   const totalBizPct=bizRows.reduce((s,r)=>s+(+r.pct||0),0);
   document.getElementById('biz-rev-sub').textContent=bizRev>0?'':'Enter your average monthly revenue above';
 
   const bizIns=document.getElementById('biz-insights');
-  if(bizIns)bizIns.innerHTML=buildBizInsights();
+  const bizInsHTML=buildBizInsights();
+  if(bizIns)bizIns.innerHTML=bizInsHTML;
+  const bizInsLabel=document.getElementById('biz-insights-label');
+  if(bizInsLabel)bizInsLabel.style.display=bizInsHTML?'block':'none';
   const persIns=document.getElementById('personal-insights');
-  if(persIns)persIns.innerHTML=buildPersonalInsights();
+  const persInsHTML=buildPersonalInsights();
+  if(persIns)persIns.innerHTML=persInsHTML;
+  const persInsLabel=document.getElementById('personal-insights-label');
+  if(persInsLabel)persInsLabel.style.display=persInsHTML?'block':'none';
   renderInsights();
+  updateTipVisibility();
+  updateAllocStatus();
+  updatePersonalAllocStatus();
 }
 
 // ── Apply DOM ─────────────────────────────────────────────────────────────
