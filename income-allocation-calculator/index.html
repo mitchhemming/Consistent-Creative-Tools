@@ -245,7 +245,7 @@ body::after{
 
   <div class="tip-card" id="tip-biz">
     <div class="tip-header"><span class="tip-icon">💡</span><span class="tip-tag">How it works</span></div>
-    <div class="tip-body">Enter your average monthly revenue, then allocate it across categories. Adjust percentages or dollar amounts — the other updates automatically. Aim for exactly 100%.</div>
+    <div class="tip-body">Enter your average monthly revenue, then allocate it across categories. Adjust percentages or dollar amounts — the other updates automatically.</div>
   </div>
 
   <!-- Revenue: full width -->
@@ -564,14 +564,18 @@ function recalcAmounts(tab){
 
 // ── Lightweight updates (no innerHTML rebuild) ────────────────────────────
 function updateTipVisibility(){
-  // Biz tip: hide when revenue is set AND all rows have a pct value
-  const bizFilled=state.bizRevenue>0;
+  const bizTotalPct=state.bizRows.reduce((s,r)=>s+(+r.pct||0),0);
+  const bizTotalAmt=state.bizRows.reduce((s,r)=>s+(+r.amt||0),0);
+  const bizAt100=(bizTotalAmt>0&&bizTotalAmt>=Math.round(+state.bizRevenue||0))||Math.round(bizTotalPct*10)/10>=100;
   const bizTip=document.getElementById('tip-biz');
-  if(bizTip)bizTip.classList.toggle('done',bizFilled);
-  // Personal tip: hide when personal income is set AND all rows have a value
-  const persFilled=getRevenue('personal')>0&&state.personalRows.every(r=>+r.pct>0||+r.amt>0);
+  if(bizTip)bizTip.classList.toggle('done',bizAt100);
+
+  const persRev=getRevenue('personal');
+  const persTotalPct=state.personalRows.reduce((s,r)=>s+(+r.pct||0),0);
+  const persTotalAmt=state.personalRows.reduce((s,r)=>s+(+r.amt||0),0);
+  const persAt100=(persTotalAmt>0&&persTotalAmt>=Math.round(persRev))||Math.round(persTotalPct*10)/10>=100;
   const persTip=document.getElementById('tip-personal');
-  if(persTip)persTip.classList.toggle('done',persFilled);
+  if(persTip)persTip.classList.toggle('done',persAt100);
 }
 
 function updateTotals(tab){
